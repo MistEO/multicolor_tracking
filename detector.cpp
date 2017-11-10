@@ -54,7 +54,7 @@ int Detector::refresh(uint times)
 		capture.get(CV_CAP_PROP_FRAME_WIDTH),
 		capture.get(CV_CAP_PROP_FRAME_HEIGHT));
 	int c = 0;
-	for (int i = 0; i != times; ++i) {
+	for (uint i = 0; i != times; ++i) {
 		c = cv::waitKey(40);
 		capture >> source_image;
 	}
