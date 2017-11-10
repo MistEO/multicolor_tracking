@@ -9,8 +9,6 @@ CXX = g++ -Wall -std=c++11
 
 #opencv需要的参数
 CFLAGS =`pkg-config opencv --cflags` `pkg-config opencv --libs`
-#只使用上面这一名，会提示"libippicv.a"这个库找不到，所以自己添加上
-UFLAGS = -L /usr/local/share/OpenCV/3rdparty/lib/
 
 TARGET:
 	    $(CXX) -o $(TARGET) $(SOURCE) $(CFLAGS) $(UFLAGS)
