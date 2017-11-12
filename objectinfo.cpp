@@ -5,7 +5,6 @@ ObjectInfo::ObjectInfo(bool mixed_flag, int count)
 	: mixed(mixed_flag), count(count),
 	lower(0, 0, 0, 0), upper(181, 181, 256, 256)
 {
-
 }
 
 cv::Scalar ObjectInfo::get_lower(bool second_hue)
@@ -35,6 +34,6 @@ cv::Scalar ObjectInfo::get_average()
 
 	//不知道怎么把HSV的Scalar转换为BGR的，只能用Mat转一下了=。=
 	cv::Mat hsv_mat(1, 1, CV_8UC3, avg_hsv), bgr_mat;
-	cv::cvtColor(hsv_mat, bgr_mat, CV_HSV2BGR);
+	cv::cvtColor(hsv_mat, bgr_mat, cv::COLOR_HSV2BGR);
 	return bgr_mat.at<cv::Vec3b>(0, 0);
 }
