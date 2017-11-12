@@ -99,6 +99,7 @@ void Detector::adjust_color(const std::string & object_name, int confirm_keycode
 	int c = 0;
 	while (c != confirm_keycode && c != cancel_keycode) {
 		c = refresh();
+		oinfo.refresh_scalar();
 		process(object_name, adjust_window_name);
 	}
 	if (c == confirm_keycode) {
@@ -239,6 +240,7 @@ void Detector::load(const std::string & name)
 		oinfo.lower[i] = static_cast<int>(*it_lower);
 		oinfo.upper[i] = static_cast<int>(*it_upper);
 	}
+	oinfo.refresh_scalar();
 	fs.release();
 }
 

@@ -18,6 +18,8 @@ class ObjectInfo {
 public:
 	explicit ObjectInfo(bool mixed_flag = false, int count = 1);
 
+	void refresh_scalar();
+
 	//获取颜色下限、上限
 	cv::Scalar get_lower(bool second_hue = false);
 	cv::Scalar get_upper(bool second_hue = false);
@@ -30,8 +32,10 @@ public:
 	int count;
 
 	//下限颜色和上限颜色
-	//[0]:H值 [1]:H2第二部分，若不是红色则为0 [2]:S [3]:V
+	//[0]:H值 [1]:H值第二部分，若不是红色则为0 [2]:S [3]:V
 	cv::Vec4i lower, upper;
+	//平均色
+	cv::Scalar avg_color;
 	//包含该色的所有矩形
 	std::set<cv::Rect, RectCompare> rect_set;
 };
