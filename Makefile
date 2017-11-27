@@ -14,7 +14,7 @@ TARGET:
 	    $(CXX) -o $(TARGET) $(SOURCE) $(CFLAGS) $(UFLAGS)
 
 clean:
-		rm -f *.a *.o $(TARGET) core *~ *.so *.lo *.swp
+		rm -f *.a *.o *.ymal $(TARGET) core *~ *.so *.lo *.swp
 
 # useful to make a backup "make tgz"
 tgz: clean
