@@ -119,48 +119,48 @@ void Detector::process(const std::string & object_name, const std::string & wind
 	}
 	ObjectInfo & oinfo = object_map[object_name];
 	Mat binary_image;
-	//°´·¶Î§¶şÖµ»¯£¬Çø¼äÇ°¿ªºó±Õ
+	//æŒ‰èŒƒå›´äºŒå€¼åŒ–ï¼ŒåŒºé—´å‰å¼€åé—­
 	inRange(hsv_image, oinfo.get_lower(), oinfo.get_upper(), binary_image);
-	//ºÏ²¢»ìºÏÉ«µÄ¶şÖµ»¯Í¼Ïñ
+	//åˆå¹¶æ··åˆè‰²çš„äºŒå€¼åŒ–å›¾åƒ
 	if (oinfo.mixed) {
 		Mat binary_image2;
 		inRange(hsv_image, oinfo.get_lower(true), oinfo.get_upper(true), binary_image2);
 		addWeighted(binary_image2, 1, binary_image, 1, 0, binary_image);
 	}
 	morphologyEx(binary_image, binary_image, cv::MORPH_OPEN,
-		getStructuringElement(MORPH_RECT, Size(10 * scale, 10 * scale)));	//¿ª²Ù×÷½µÔë
+		getStructuringElement(MORPH_RECT, Size(10 * scale, 10 * scale)));	//å¼€æ“ä½œé™å™ª
 	morphologyEx(binary_image, binary_image, cv::MORPH_CLOSE,
-		getStructuringElement(MORPH_RECT, Size(10 * scale, 10 * scale)));	//±Õ²Ù×÷½µÔë
+		getStructuringElement(MORPH_RECT, Size(10 * scale, 10 * scale)));	//é—­æ“ä½œé™å™ª
 
 	using std::vector;
 	vector<vector<Point> > all_contours;
 	vector<Vec4i> hierarchy;
 	Mat contours_image = binary_image.clone();
 	findContours(contours_image, all_contours, hierarchy,
-		cv::RETR_TREE, cv::CHAIN_APPROX_NONE);		//²éÕÒÂÖÀª
+		cv::RETR_TREE, cv::CHAIN_APPROX_NONE);		//æŸ¥æ‰¾è½®å»“
 	oinfo.rect_set.clear();
 	for (auto & i : all_contours) {
-		oinfo.rect_set.insert(boundingRect(Mat(i)));//´ÓÂÖÀªÌáÈ¡¾ØĞÎ£¬²¢¼ÓÈëset
+		oinfo.rect_set.insert(boundingRect(Mat(i)));//ä»è½®å»“æå–çŸ©å½¢ï¼Œå¹¶åŠ å…¥set
 	}
 
-	//»­Ä³Ò»¸öÑÕÉ«µÄshow_image
+	//ç”»æŸä¸€ä¸ªé¢œè‰²çš„show_image
 	if (!window_name.empty()) {
 		Mat show_image = Mat::zeros(scale_image.size(), scale_image.type());
 		show_image = scale_image.clone();
 		Mat bgr_binary_image;
-		cvtColor(binary_image, bgr_binary_image, CV_GRAY2BGR);	//×ª»»ÎªÈıÍ¨µÀ£¬ÒÔºÏ²¢
+		cvtColor(binary_image, bgr_binary_image, CV_GRAY2BGR);	//è½¬æ¢ä¸ºä¸‰é€šé“ï¼Œä»¥åˆå¹¶
 		const double alpha = 0.5, beta = 0.5, gamma = 0.0;
-		addWeighted(show_image, alpha, bgr_binary_image, beta, gamma, show_image);	//ÏßĞÔµş¼Ó
+		addWeighted(show_image, alpha, bgr_binary_image, beta, gamma, show_image);	//çº¿æ€§å åŠ 
 		line(show_image, cv::Point(show_image.cols / 2, 0),
 			Point(show_image.cols / 2, show_image.rows),
-			Scalar(255, 0, 0), 2);		//»­Í¼ÏñÖĞÖáÏß
+			Scalar(255, 0, 0), 2);		//ç”»å›¾åƒä¸­è½´çº¿
 		if (!oinfo.rect_set.empty()) {
-			for (auto i : oinfo.rect_set) {	//»­ËùÓĞ¾ØĞÎ
+			for (auto i : oinfo.rect_set) {	//ç”»æ‰€æœ‰çŸ©å½¢
 				rectangle(show_image, i, cv::Scalar(0, 0, 0), 1);
 			}
 			int rectangle_count = 0;
 			for (auto i : oinfo.rect_set) {
-				rectangle(show_image, i, oinfo.get_average(), 2);	//»­×î´ó¼¸¸ö¾ØĞÎ
+				rectangle(show_image, i, oinfo.get_average(), 2);	//ç”»æœ€å¤§å‡ ä¸ªçŸ©å½¢
 				if (++rectangle_count == oinfo.count) {
 					break;
 				}

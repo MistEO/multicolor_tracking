@@ -7,62 +7,62 @@
 
 #include "objectinfo.h"
 
-//¾ØĞÎÊôĞÔ
+//çŸ©å½¢å±æ€§
 enum RectAttr {
 	LeftX, RightX, TopY, BottomY, CenterX, CenterY,
 	Height, Width, Area
 };
 
-//Í¼Ïñ´¦ÀíÀà£¬¾²Ì¬µ¥ÀıÄ£Ê½£¬µ÷ÓÃDetector::ins()»ñÈ¡µ¥Àı¶ÔÏó
+//å›¾åƒå¤„ç†ç±»ï¼Œé™æ€å•ä¾‹æ¨¡å¼ï¼Œè°ƒç”¨Detector::ins()è·å–å•ä¾‹å¯¹è±¡
 class Detector {
 public:
-	//×èÖ¹¿½±´ºÍ¸³Öµ
+	//é˜»æ­¢æ‹·è´å’Œèµ‹å€¼
 	Detector(const Detector&) = delete;
 	Detector & operator=(const Detector&) = delete;
 
-	//»ñÈ¡¾²Ì¬µ¥Àı
+	//è·å–é™æ€å•ä¾‹
 	static Detector & ins();
 	
-	//ÉèÖÃÍ¼ÏñËõ·Å£¬¿ÉÒÔËõĞ¡Í¼ÏñÒÔÌá¸ßĞÔÄÜ£¬µ÷ÓÃrefreshº¯Êı¸üĞÂ
+	//è®¾ç½®å›¾åƒç¼©æ”¾ï¼Œå¯ä»¥ç¼©å°å›¾åƒä»¥æé«˜æ€§èƒ½ï¼Œè°ƒç”¨refreshå‡½æ•°æ›´æ–°
 	void set_scale(double scale);
-	//Ë¢ĞÂÖ¡
+	//åˆ·æ–°å¸§
 	int refresh(uint times = 1);
 
-	//²åÈëĞÂµÄ×·×ÙÉ«
+	//æ’å…¥æ–°çš„è¿½è¸ªè‰²
 	void insert(const std::string & name,
 		bool mixed_flag = false, int count = 1);
-	//É¾³ıÄ³¸ö×·×ÙÉ«
+	//åˆ é™¤æŸä¸ªè¿½è¸ªè‰²
 	void erase(const std::string & name);
-	//Çå¿ÕËùÓĞ
+	//æ¸…ç©ºæ‰€æœ‰
 	void clear();
-	//²éÕÒÄ³¸ö×·×ÙÉ«ÊÇ·ñ´æÔÚ
+	//æŸ¥æ‰¾æŸä¸ªè¿½è¸ªè‰²æ˜¯å¦å­˜åœ¨
 	bool exist(const std::string & name, const int order = 1) const;
 
-	//ÊÖ¶¯µ÷ÕûÄ³¸ö×·×ÙÉ«HSVÖµ
+	//æ‰‹åŠ¨è°ƒæ•´æŸä¸ªè¿½è¸ªè‰²HSVå€¼
 	void adjust_color(const std::string & object_name,
 		int confirm_keycode = 13, int cancel_keycode = 27);
-	//´¦ÀíÄ³¸ö×·×ÙÉ«
+	//å¤„ç†æŸä¸ªè¿½è¸ªè‰²
 	void process(const std::string & object_name, const std::string & window_name = "");
-	//»ñÈ¡¾ØĞÎÊôĞÔÖµ
+	//è·å–çŸ©å½¢å±æ€§å€¼
 	int get_rect_attr(const std::string & object_name, const int order, RectAttr attr) const;
 
-	//ÏÔÊ¾´°¿Ú
+	//æ˜¾ç¤ºçª—å£
 	void show();
 	
 private:
-	//¶ÁÈ¡ºÍ±£´æµÄHSVÖµ£¬YMALÎÄ¼ş
+	//è¯»å–å’Œä¿å­˜çš„HSVå€¼ï¼ŒYMALæ–‡ä»¶
 	void load(const std::string & name);
 	void save(const std::string & name);
 
-	//Ë½ÓĞ»¯¹¹ÔìºÍÎö¹¹º¯Êı
+	//ç§æœ‰åŒ–æ„é€ å’Œææ„å‡½æ•°
 	Detector();
 	~Detector();
 
 	cv::VideoCapture capture;
-	//Ãû³ÆºÍÑÕÉ«ĞÅÏ¢¼üÖµ¶Ô
+	//åç§°å’Œé¢œè‰²ä¿¡æ¯é”®å€¼å¯¹
 	std::map<std::string, ObjectInfo> object_map;
-	//Ëõ·Å±ÈÀı
+	//ç¼©æ”¾æ¯”ä¾‹
 	double scale = 1.0;
-	//Ô­Í¼Ïñ¡¢Ëõ·ÅºóÍ¼Ïñ¡¢hsvÍ¼Ïñ¡¢ÏÔÊ¾µÄÍ¼Ïñ
+	//åŸå›¾åƒã€ç¼©æ”¾åå›¾åƒã€hsvå›¾åƒã€æ˜¾ç¤ºçš„å›¾åƒ
 	cv::Mat source_image, scale_image, hsv_image, show_image;
 };

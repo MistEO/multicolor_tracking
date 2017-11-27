@@ -37,7 +37,7 @@ void ObjectInfo::refresh_scalar()
 	avg_hsv[1] = (get_lower()[1] + get_upper()[1]) / 2;
 	avg_hsv[2] = (get_lower()[2] + get_upper()[2]) / 2;
 
-	//²»ÖªµÀÔõÃ´°ÑHSVµÄScalar×ª»»ÎªBGRµÄ£¬Ö»ÄÜÓÃMat×ªÒ»ÏÂÁË=¡£=
+	//ä¸çŸ¥é“æ€ä¹ˆæŠŠHSVçš„Scalarè½¬æ¢ä¸ºBGRçš„ï¼Œåªèƒ½ç”¨Matè½¬ä¸€ä¸‹äº†=ã€‚=
 	cv::Mat hsv_mat(1, 1, CV_8UC3, avg_hsv), bgr_mat;
 	cv::cvtColor(hsv_mat, bgr_mat, cv::COLOR_HSV2BGR);
 	avg_color = bgr_mat.at<cv::Vec3b>(0, 0);
