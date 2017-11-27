@@ -8,7 +8,7 @@ TARGET = demo
 CXX = g++ -Wall -std=c++11
 
 #opencv需要的参数
-CFLAGS =`pkg-config opencv --cflags` `pkg-config opencv --libs`
+CFLAGS =`pkg-config opencv --cflags --libs`
 
 TARGET:
 	    $(CXX) -o $(TARGET) $(SOURCE) $(CFLAGS) $(UFLAGS)
